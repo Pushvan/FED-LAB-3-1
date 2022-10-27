@@ -1,75 +1,70 @@
-import { useState } from "react";
-import "./styles.css";
+import React, { useState } from "react";
 
-export default function App() {
-  const [height, setheight] = useState(0);
-  const [weight, setweight] = useState(0);
-  const [bmi, setbmi] = useState(0);
-  const [c, setc] = useState("Comment");
-  const cal = () => {
-    //let d=0;
-    let d = Number(weight) / (Number(height) * Number(height));
-    console.log("Weight", weight);
-    console.log("d", d);
+function Bmi() {
+  const [weight, setWeight] = useState(0);
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState(0);
 
-    setbmi( d );
-    if (d < 16) {
-      setc("Severe Thickness" );
-    }
-    if (d < 17) {
-      setc( "Moderate Thickness" );
-    }
-    if (d < 18.5) {
-      setc( "Mild Thickness" );
-    }
-    if (d < 25) {
-      setc( "Normal" );
-    }
-    if (d < 30) {
-      setc( "Overweight" );
-    }
-    if (d < 35) {
-      setc("Obese Class I" );
-    }
-    if (d < 40) {
-      setc( "Obese Class II" );
-    }
-    if (d > 40) {
-      setc("Obese Class III" );
-    }
+  const calci = () => {
+    var squaredheight = (height / 100) * (height / 100);
+    var bmi = weight / squaredheight;
+
+    if (bmi < 16)
+      window.alert(
+        "Hi.." + name + "...You are completely UnderWeight (Severe Thinner)"
+      );
+    else if (bmi >= 16 && bmi < 17)
+      window.alert(
+        "Hi.." + name + "...You are Moderately UnderWeight (Moderate Thinner)"
+      );
   };
+
+  const submitMe = (e) => {
+    e.preventDefault();
+    calci();
+  };
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+  const handleHeight = (e) => {
+    setHeight(e.target.value);
+  };
+  const handleWeight = (e) => {
+    setWeight(e.target.value);
+  };
+
   return (
-    <div className="App">
-      <h1>BMI CALCULATOR</h1>
-      <div className="calculator">
-        <p>
-          {" "}
-          Enter the height(in m){" "}
-          <input
-            type="text"
-            onChange={(event) => {
-              setheight( event.target.value );
-
-              console.log("height",height);
-            }}
-          />
-        </p>
-        <p>
-          {" "}
-          Enter the weight(in kg){" "}
-          <input
-            type="text"
-            onChange={(event) => {
-              setweight(event.target.value);
-
-              console.log("weight",weight);
-            }}
-          />
-        </p>
-        <button onClick={cal}>Calculate BMI</button>
-      </div>
-      <h2>Result:</h2>
-      <h3>{bmi},{ c}</h3>
+    <div className="calci">
+      <h1>BMI Calculator</h1>
+      <form onSubmit={submitMe}>
+        <label>Please enter your name</label>
+        <input type="text" name="name" value={name} onChange={handleName} />
+        <br />
+        <br />
+        <label>Enter your height in cm:</label>
+        <input
+          type="text"
+          name="height"
+          value={height}
+          onChange={handleHeight}
+        />
+        <br />
+        <br />
+        <label>Enter your weight in kg :</label>
+        <br />
+        <input
+          type="text"
+          name="weight"
+          value={weight}
+          onChange={handleWeight}
+        />
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 }
+
+export default Bmi;
